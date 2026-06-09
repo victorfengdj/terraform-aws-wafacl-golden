@@ -16,7 +16,7 @@ these rules manually per-distribution is inconsistent, error-prone, and impossib
 `terraform-aws-wafacl-golden` solves this by defining the **organisation-wide baseline WAF
 ACL as code**. One `terraform apply` creates a single CLOUDFRONT-scoped Web ACL that acts as
 the golden standard. The companion module
-[terraform-aws-auto-remediate-waf-loss](https://github.com/YOUR_GITHUB_USERNAME/terraform-aws-auto-remediate-waf-loss)
+[terraform-aws-auto-remediate-waf-loss](https://github.com/victorfengdj/terraform-aws-auto-remediate-waf-loss)
 enforces it automatically on every distribution.
 
 ---
@@ -84,14 +84,14 @@ overwrite SOC additions on the next plan/apply.
 
 ```hcl
 module "wafacl_golden" {
-  source = "github.com/YOUR_GITHUB_USERNAME/terraform-aws-wafacl-golden"
+  source = "github.com/victorfengdj/terraform-aws-wafacl-golden"
 }
 ```
 
 ### As a standalone deployment
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/terraform-aws-wafacl-golden.git
+git clone https://github.com/victorfengdj/terraform-aws-wafacl-golden.git
 cd terraform-aws-wafacl-golden
 terraform login        # authenticate with HCP Terraform (one-time)
 terraform init
@@ -119,7 +119,7 @@ terraform apply
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_GITHUB_USERNAME/terraform-aws-wafacl-golden.git
+git clone https://github.com/victorfengdj/terraform-aws-wafacl-golden.git
 cd terraform-aws-wafacl-golden
 
 # 2. Authenticate with HCP Terraform (one-time setup)
@@ -148,4 +148,4 @@ terraform apply
 
 ## Related Projects
 
-- **[terraform-aws-auto-remediate-waf-loss](https://github.com/YOUR_GITHUB_USERNAME/terraform-aws-auto-remediate-waf-loss)** — EventBridge + Lambda automation that detects CloudFront distributions without WAF and attaches this ACL within 60 seconds.
+- **[terraform-aws-auto-remediate-waf-loss](https://github.com/victorfengdj/terraform-aws-auto-remediate-waf-loss)** — EventBridge + Lambda automation that detects CloudFront distributions without WAF and attaches this ACL within 60 seconds.
