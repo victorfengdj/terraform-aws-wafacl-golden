@@ -1,0 +1,29 @@
+# Terraform local cache — downloaded providers and modules
+.terraform/
+
+# Terraform state files — state is managed remotely in HCP Terraform Cloud
+*.tfstate
+*.tfstate.backup
+.terraform.tfstate.lock.info
+
+# Terraform plan output files — contain sensitive data, never commit
+*.tfplan
+
+# Terraform variable files — may contain secrets
+*.tfvars
+*.tfvars.json
+
+# Terraform lock file — optionally commit this to pin provider versions
+# Uncomment the line below to exclude it
+# .terraform.lock.hcl
+
+# macOS metadata files
+.DS_Store
+
+# Editor directories
+.idea/
+.vscode/
+
+# Environment variable files — may contain AWS credentials or tokens
+.env
+.env.*
