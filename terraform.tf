@@ -1,6 +1,7 @@
 terraform {
   cloud {
-    organization = "wgf"
+    # Replace with your own HCP Terraform organization before `terraform init`.
+    organization = "change-to-your-org"
     workspaces {
       project = "aws"
       name    = "aws_wafacl_golden"
@@ -14,7 +15,7 @@ terraform {
     }
   }
 
-  required_version = ">= 1.2"
+  required_version = ">= 1.12"
 }
 
 # CloudFront-scoped WAFs must be deployed in us-east-1 regardless of

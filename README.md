@@ -1,6 +1,6 @@
 # terraform-aws-wafacl-golden
 
-![Terraform](https://img.shields.io/badge/Terraform-%3E%3D1.2-7B42BC?logo=terraform)
+![Terraform](https://img.shields.io/badge/Terraform-%3E%3D1.12-7B42BC?logo=terraform)
 ![AWS WAFv2](https://img.shields.io/badge/AWS-WAFv2-FF9900?logo=amazon-aws)
 
 Enterprise CloudFront WAF ACL — codified as Terraform, deployed via HCP Terraform Cloud.
@@ -56,7 +56,7 @@ enforces it automatically on every distribution.
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| Infrastructure-as-Code | Terraform ≥ 1.2 | Declarative WAF configuration |
+| Infrastructure-as-Code | Terraform ≥ 1.12 | Declarative WAF configuration |
 | WAF | AWS WAFv2 (CLOUDFRONT scope) | Traffic inspection and blocking |
 | Managed rules | AWS Managed Rule Groups | OWASP, SQLi, Bot, DDoS, IP reputation |
 | Custom IP set | `aws_wafv2_ip_set` | SOC-managed real-time blocklist |
@@ -93,6 +93,7 @@ module "wafacl_golden" {
 ```bash
 git clone https://github.com/victorfengdj/terraform-aws-wafacl-golden.git
 cd terraform-aws-wafacl-golden
+# first: edit terraform.tf — set organization to your own HCP Terraform org
 terraform login        # authenticate with HCP Terraform (one-time)
 terraform init
 terraform plan
@@ -107,13 +108,20 @@ terraform apply
 
 | Requirement | Version |
 |---|---|
-| [Terraform CLI](https://developer.hashicorp.com/terraform/downloads) | ≥ 1.2 |
+| [Terraform CLI](https://developer.hashicorp.com/terraform/downloads) | ≥ 1.12 |
 | AWS provider | ~> 6.0 (pinned in `terraform.tf`) |
-| [HCP Terraform account](https://app.terraform.io) | org `wgf`, workspace `terraform-aws-wafacl-golden` |
-| AWS credentials | configured in the HCP Terraform workspace as environment variables |
 
 > **Region note:** CloudFront-scoped WAF ACLs **must** be deployed in `us-east-1`.
 > The provider is hardcoded to that region in `terraform.tf`.
+
+### Credentials & secrets handling
+
+This project stores no secrets in the repository, in Terraform state, or at runtime.
+
+| Layer | Mechanism | Detail |
+|---|---|---|
+| Remote state | HCP Terraform | org — edit `organization` in `terraform.tf` to your own HCP Terraform org; workspace — defaults to `aws_wafacl_golden` (project `aws`). State is stored remotely, encrypted at rest, with access restricted to the workspace |
+| Deployment credentials | HCP Terraform workspace environment variables, marked **Sensitive** | Write-only once saved — cannot be read back through the UI or API; never appear in the repository, plan output, or on a local machine. For production, [dynamic provider credentials](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials) (OIDC) are recommended — Terraform assumes a short-lived IAM role per run, so no static credentials are stored at all |
 
 ### Steps
 
@@ -123,6 +131,7 @@ git clone https://github.com/victorfengdj/terraform-aws-wafacl-golden.git
 cd terraform-aws-wafacl-golden
 
 # 2. Authenticate with HCP Terraform (one-time setup)
+# first: edit terraform.tf — set organization to your own HCP Terraform org
 terraform login
 
 # 3. Initialise — downloads providers and connects to the remote workspace
