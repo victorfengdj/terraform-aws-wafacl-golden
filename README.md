@@ -152,9 +152,3 @@ terraform apply
 | Anti-DDoS L7 | $20 / month flat |
 | Bot Control TARGETED | ~$10 / million requests on scoped paths |
 | Base WAF ACL | $5 / month |
-
----
-
-## Related Projects
-
-- **[terraform-aws-auto-remediate-waf-loss](https://github.com/victorfengdj/terraform-aws-auto-remediate-waf-loss)** — EventBridge + Lambda automation that detects CloudFront distributions without WAF and attaches this ACL within 60 seconds.
